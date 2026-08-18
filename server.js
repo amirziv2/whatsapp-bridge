@@ -27,7 +27,7 @@ async function startSock() {
   const { version } = await fetchLatestBaileysVersion();
   sock = makeWASocket({
     version, auth: state, printQRInTerminal: false,
-    logger: { level: 'silent' },
+    logger: require('pino')({ level: 'silent' }),
     browser: ['ItaiBarMitzvah', 'Chrome', '1.0.0'],
   });
   sock.ev.on('creds.update', saveCreds);
