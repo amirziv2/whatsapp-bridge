@@ -9,7 +9,7 @@
 //   POST /send-bulk  -> { items: [{ to, text, id }], imageUrl? } -> { ok, sentIds }
 //
 // Incoming messages are forwarded to the Base44 "whatsapp-webhook" function
-// as { token, from, message }, so RSVP replies auto-update the Guest entity.
+// as { token, from, message, ts }, so RSVP replies auto-update the Guest entity.
 
 const express = require('express');
 const cors = require('cors');
@@ -26,10 +26,10 @@ const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 
 const PORT = process.env.PORT || 3000;
+const logger = pino({ level: 'silent' });
 const TOKEN = process.env.BRIDGE_TOKEN || 'change-me';
 const WEBHOOK_URL = process.env.WEBHOOK_URL || '';
 const AUTH_DIR = path.join(__dirname, 'auth_state');
-const logger = pino({ level: 'silent' });
 
 const app = express();
 app.use(cors());
@@ -106,6 +106,7 @@ async function startSock() {
           token: TOKEN,
           from,
           message: text,
+          ts: ts || Date.now(),
         });
       } catch (e) {
         console.error('Webhook forward failed:', e.message);
