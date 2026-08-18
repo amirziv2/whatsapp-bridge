@@ -23,11 +23,13 @@ const {
   fetchLatestBaileysVersion,
 } = require('@whiskeysockets/baileys');
 const { Boom } = require('@hapi/boom');
+const pino = require('pino');
 
 const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.BRIDGE_TOKEN || 'change-me';
 const WEBHOOK_URL = process.env.WEBHOOK_URL || '';
 const AUTH_DIR = path.join(__dirname, 'auth_state');
+const logger = pino({ level: 'silent' });
 
 const app = express();
 app.use(cors());
@@ -46,7 +48,7 @@ async function startSock() {
     version,
     auth: state,
     printQRInTerminal: false,
-    logger: { level: 'silent' },
+    logger,
     browser: ['ItaiBarMitzvah', 'Chrome', '1.0.0'],
   });
 
