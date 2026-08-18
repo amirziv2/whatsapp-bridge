@@ -4,8 +4,12 @@
   "description": "Self-hosted WhatsApp bridge (baileys) for the Itai Bar Mitzvah Base44 app",
   "type": "commonjs",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^6.7.18",
